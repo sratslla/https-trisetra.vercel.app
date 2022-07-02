@@ -55,7 +55,7 @@ const raycaster = new THREE.Raycaster()
 
 var arr = [[.25, .25, 0], [-.25, .5, 0], [.5, -.25, 0], [1.25, 1.75, 0]]
 for(let i = 0; i < 4; i++){
-    var rayOrigin = new THREE.Vector3(arr[i][0], .25, 0)
+    var rayOrigin = new THREE.Vector3(arr[i][0], arr[i][1], arr[i][2])
     var rayDirection = new THREE.Vector3(0, 0, 1)
     rayDirection.normalize()
     raycaster.set(rayOrigin, rayDirection)
@@ -63,7 +63,7 @@ for(let i = 0; i < 4; i++){
     const intersects = raycaster.intersectObjects(objectToTest)
     console.log(intersects);
     for(const intersect of intersects){
-        intersect.object.material.opacity = 1
+        intersect.object.material.opacity = 0                                                                                                                                                                                                                                          +1                                                                                                                                                                                                                                ;
     }
 }
 console.log(planee.children)
