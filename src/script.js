@@ -1,7 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { BufferGeometry, DirectionalLightShadow, DoubleSide, Vector2 } from 'three'
+import { DoubleSide,  } from 'three'
 
 /**
  * Base
@@ -16,8 +16,6 @@ const scene = new THREE.Scene()
  * Object
  */
 const planee = new THREE.Group()
-
-
 
 for(let x = .25; x < 2; x = x + .5 ){
     for(let y = .25; y < 2; y = y + .5 ){
@@ -100,7 +98,6 @@ window.addEventListener('resize', () => {
     // Update renderer
     renderer.setSize(sizes.width, sizes.height)
 })
-// planee.remove(planee.children[Math.floor(Math.random() * 65)])p
 window.addEventListener('dblclick', () => {
     if(!document.fullscreenElement){
         canvas.requestFullscreen()
@@ -110,8 +107,6 @@ window.addEventListener('dblclick', () => {
         document.exitFullscreen()
     }
 })
-// planee.remove(planee.children[Math.floor(Math.random() * 65)])
-
 
 
 // Controls
