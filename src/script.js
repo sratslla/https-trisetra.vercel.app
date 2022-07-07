@@ -17,6 +17,7 @@ const scene = new THREE.Scene()
  */
 const planee = new THREE.Group()
 
+
 for(let x = .25; x < 2; x = x + .5 ){
     for(let y = .25; y < 2; y = y + .5 ){
         const geometry = new THREE.PlaneBufferGeometry(.5, .5)
@@ -78,11 +79,7 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 
 camera.position.set(0, 10, -10)
 scene.add(camera)
 camera.lookAt(new THREE.Vector3(0, 0, 0))
-var arr = [[.75, .25, 1], [-.25, -1.75, 1], [.25, -.75, 1], [-1.25, 1.25, 1]]
 
-// Axes Helper.
-// const axesHelper = new THREE.AxesHelper( 5 )
-// scene.add(axesHelper)
 
 
 window.addEventListener('resize', () => {
@@ -93,9 +90,9 @@ window.addEventListener('resize', () => {
     // Update camera
     camera.aspect = sizes.width / sizes.height
     
-
+    
     camera.updateProjectionMatrix()
-
+    
     // Update renderer
     renderer.setSize(sizes.width, sizes.height)
 })
@@ -122,6 +119,14 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+// Array of positions
+var arr = [[.75, .25, 1], [-.25, -1.75, 1], [.25, -.75, 1], [-1.25, 1.25, 1]]
+
+// Axes Helper.
+// const axesHelper = new THREE.AxesHelper( 5 )
+// scene.add(axesHelper)
+
 
 /**
  * Animate
@@ -158,6 +163,7 @@ const tick = () =>
             for(const intersect of intersects){
                 if(tickcounter == 1){
                     intersect.object.material.opacity = 0
+                    planee.rotation.x = Math.PI * 0.5
                 }
             }
         }
@@ -177,5 +183,4 @@ const tick = () =>
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
 }
-
 tick()
