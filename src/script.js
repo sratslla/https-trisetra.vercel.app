@@ -1,7 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { DoubleSide } from 'three'
+import { BufferGeometry, DirectionalLightShadow, DoubleSide, Vector2 } from 'three'
 
 /**
  * Base
@@ -16,21 +16,27 @@ const scene = new THREE.Scene()
  * Object
  */
 const planee = new THREE.Group()
-scene.add(planee)
-const geometry = new THREE.PlaneBufferGeometry(.5, .5)
-const material = new THREE.MeshBasicMaterial({ 
-    color: 0x00ff00,
-    side: DoubleSide,
-    transparent: true})
+
+
 
 for(let x = .25; x < 2; x = x + .5 ){
     for(let y = .25; y < 2; y = y + .5 ){
+        const geometry = new THREE.PlaneBufferGeometry(.5, .5)
+        const material = new THREE.MeshBasicMaterial({ 
+            color: 0x00ff00,
+            transparent: true,
+            side: DoubleSide})
         const plane = new THREE.Mesh(geometry, material)
         plane.position.set(x,y)
         planee.add(plane)
     }
     
     for(let y = -.25; y > -2; y = y - .5 ){
+        const geometry = new THREE.PlaneBufferGeometry(.5, .5)
+        const material = new THREE.MeshBasicMaterial({ 
+            color: 0x00ff00,
+            transparent: true,
+            side: DoubleSide})
         const plane = new THREE.Mesh(geometry, material)
         plane.position.set(x,y)
         planee.add(plane)
@@ -38,54 +44,28 @@ for(let x = .25; x < 2; x = x + .5 ){
 }
 for(let x = -.25; x > -2; x = x - .5 ){
     for(let y = .25; y < 2; y = y + .5 ){
+        const geometry = new THREE.PlaneBufferGeometry(.5, .5)
+        const material = new THREE.MeshBasicMaterial({
+            color: 0x00ff00,
+            transparent: true,
+            side: DoubleSide})
         const plane = new THREE.Mesh(geometry, material)
         plane.position.set(x,y)
         planee.add(plane)
     }
     
     for(let y = -.25; y > -2; y = y - .5 ){
+        const geometry = new THREE.PlaneBufferGeometry(.5, .5)
+        const material = new THREE.MeshBasicMaterial({ 
+            color: 0x00ff00,
+            transparent: true,
+            side: DoubleSide})
         const plane = new THREE.Mesh(geometry, material)
         plane.position.set(x,y)
         planee.add(plane)
     }
 }
-// Raycaster
-
-const raycaster = new THREE.Raycaster()
-
-var arr = [[.25, .25, 0], [-.25, .5, 0], [.5, -.25, 0], [1.25, 1.75, 0]]
-for(let i = 0; i < 4; i++){
-    var rayOrigin = new THREE.Vector3(arr[i][0], arr[i][1], arr[i][2])
-    var rayDirection = new THREE.Vector3(0, 0, 1)
-    rayDirection.normalize()
-    raycaster.set(rayOrigin, rayDirection)
-    const objectToTest = planee.children
-    const intersects = raycaster.intersectObjects(objectToTest)
-    console.log(intersects);
-    for(const intersect of intersects){
-        intersect.object.material.opacity = 0                                                                                                                                                                                                                                          +1                                                                                                                                                                                                                                ;
-    }
-}
-console.log(planee.children)
-
-// for(let i = 0; i < 4; i++){
-//     const arr = [[.25, .25, 0], [-.25, .5, 0], [.5, -.25, 0], [1.25, 1.75, 0]]
-//     console.log(arr[i][0]);
-//     var rayOrigin = new THREE.Vector3(0, 0, -1)
-//     var rayDirection = new THREE.Vector3(.25, .25, 0)
-//     rayDirection.normalize()
-//     raycaster.set(rayOrigin, rayDirection)
-//     const objectToTest = planee.children
-//     const intersects = raycaster.intersectObjects(objectToTest)
-//     console.log(intersects);
-//     for(const intersect of intersects){
-//         intersect.object.material.opacity = 0
-//     }
-// }
-// console.log(planee.children);
-// console.log(intersects);
-// intersects.object.material.color.set = "rgba(255, 0, 0, 0)"
-
+scene.add(planee)
 /**
  * Sizes
  */
@@ -93,8 +73,19 @@ const sizes = {
     width: window.innerWidth,
     height: window.innerHeight
 }
+// Camera
 
-planee.remove(planee.children[Math.floor(Math.random() * 65)])
+// Base camera
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+camera.position.set(0, 0, 10)
+scene.add(camera)
+var arr = [[.75, .25, 1], [-.25, -1.75, 1], [.25, -.75, 1], [-1.25, 1.25, 1]]
+
+// Axes Helper.
+// const axesHelper = new THREE.AxesHelper( 5 )
+// scene.add(axesHelper)
+
+
 window.addEventListener('resize', () => {
     // Update Sizes
     sizes.width = window.innerWidth
@@ -109,7 +100,7 @@ window.addEventListener('resize', () => {
     // Update renderer
     renderer.setSize(sizes.width, sizes.height)
 })
-planee.remove(planee.children[Math.floor(Math.random() * 65)])
+// planee.remove(planee.children[Math.floor(Math.random() * 65)])p
 window.addEventListener('dblclick', () => {
     if(!document.fullscreenElement){
         canvas.requestFullscreen()
@@ -119,16 +110,9 @@ window.addEventListener('dblclick', () => {
         document.exitFullscreen()
     }
 })
-planee.remove(planee.children[Math.floor(Math.random() * 65)])
-/**
- * Camera
- */
-// Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-planee.remove(planee.children[Math.floor(Math.random() * 65)])
-camera.position.set(0, 10, -10)
-camera.lookAt(0, 0, 0)
-scene.add(camera)
+// planee.remove(planee.children[Math.floor(Math.random() * 65)])
+
+
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
@@ -148,8 +132,44 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const clock = new THREE.Clock()
 
+var tickcounter = 0
 const tick = () =>
 {
+    const raycaster = new THREE.Raycaster()
+    if(tickcounter < 2){
+        for(let i = 0; i < 4; i++){
+            // Ray Helper
+            // const origin = new THREE.Vector3(arr[i][0], arr[i][1], .5)
+            // const dir = new THREE.Vector3(0, 0, -.5)
+            // dir.normalize()
+            // const length = 1;
+            // const hex = 0x6B6867;
+            // const arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex );
+            // scene.add( arrowHelper );
+            // console.log('a');
+        
+            // Raycaster
+            const rayOrigin = new THREE.Vector3(arr[i][0], arr[i][1], .5)
+            const rayDirection = new THREE.Vector3(0, 0, -.5)
+            rayDirection.normalize()
+            raycaster.set(rayOrigin, rayDirection)
+            var intersects = raycaster.intersectObjects(planee.children, true)
+            for(const object of planee.children){
+                if(tickcounter == 0){
+                    object.material.opacity = 1
+                }
+            }
+            for(const intersect of intersects){
+                if(tickcounter == 1){
+                    intersect.object.material.opacity = 0
+                }
+            }
+        }
+        tickcounter++
+    }
+    
+    
+
     const elapsedTime = clock.getElapsedTime()
 
     // Update controls
