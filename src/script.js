@@ -1,7 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { DoubleSide,  } from 'three'
+import { DoubleSide, Vector3,  } from 'three'
 
 /**
  * Base
@@ -75,8 +75,9 @@ const sizes = {
 
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(0, 0, 10)
+camera.position.set(0, 10, -10)
 scene.add(camera)
+camera.lookAt(new THREE.Vector3(0, 0, 0))
 var arr = [[.75, .25, 1], [-.25, -1.75, 1], [.25, -.75, 1], [-1.25, 1.25, 1]]
 
 // Axes Helper.
